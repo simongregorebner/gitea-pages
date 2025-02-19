@@ -108,4 +108,4 @@ curl -H "Host: <organisation>.<your testserver name>" "http://localhost:8080/<re
 
 # Acknowledgements
 
-This project is an extremely simplifies rewrite of the https://github.com/42wim/caddy-gitea project. 
+This project is an extremely simplified rewrite of the https://github.com/42wim/caddy-gitea project. 
