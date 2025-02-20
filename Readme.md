@@ -31,12 +31,12 @@ To run the server in __simple__ mode you need a minimal configuration (filename 
 
 ```Caddyfile
 {
-	order gitea-pages before file_server
+    order gitea-pages before file_server
 }
 :8080
 gitea-pages {
-	server https://your-gitea-server
-	token gitea-access-token
+    server https://your-gitea-server
+    token gitea-access-token
 }
 ```
 
@@ -60,18 +60,18 @@ These are the possible configuration options with their defaults:
 
 ```Caddyfile
 {
-	order gitea-pages before file_server
+    order gitea-pages before file_server
 }
 :8080
 gitea-pages {
-	server https://your-gitea-server
-	token gitea-access-token
+    server https://your-gitea-server
+    token gitea-access-token
     pages_branch gitea-pages
     postfix_pages_repository gitea-pages
     url_scheme simple
 }
 log {
-	level debug
+    level debug
 }
 ```
 
