@@ -23,6 +23,7 @@ jobs:
         with:
           name: caddy_${{ github.ref_name }}
           path: caddy
+          
       # - name: Create release
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
