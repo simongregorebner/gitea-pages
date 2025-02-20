@@ -1,7 +1,5 @@
 name: Build and Release
-# run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
-# on: [push]
 on:
   push:
     tags:
@@ -21,38 +19,5 @@ jobs:
     
       - uses: actions/upload-artifact@v4
         with:
-          name: caddy_${{ github.ref_name }}
+          name: caddy
           path: caddy
-          
-      # - name: Create release
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     tag: ${{ github.ref_name }}
-      #   run: |
-      #     gh release create "$tag" \
-      #         --repo="$GITHUB_REPOSITORY" \
-      #         --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
-      #         --generate-notes
-      # - uses: actions/create-release@v1
-      #   id: create_release
-      #   env:
-      #     GITHUB_TOKEN: ${{ github.token }}
-      #   with:
-      #     tag_name: ${{ github.ref }}
-      #     release_name: Release ${{ github.ref }}
-      #     draft: false
-      #     prerelease: false
-      # - uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ github.token }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ${{ github.event.repository.name }}_darwin
-      #     asset_name: ${{ github.event.repository.name }}_darwin
-      #     asset_content_type: application/octet-stream
-      # - uses: softprops/action-gh-release@v2
-      #   with:
-      #     files: |
-      #       ${{ github.event.repository.name }}_darwin
-      #       ${{ github.event.repository.name }}_linux
-      #       ${{ github.event.repository.name }}_windows
