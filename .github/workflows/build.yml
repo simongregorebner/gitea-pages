@@ -1,0 +1,57 @@
+name: Build and Release
+# run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+
+# on: [push]
+on:
+  push:
+    # tags:
+    #   - 'v*.*.*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+      - run: go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
+      - run: xcaddy build --with github.com/simongregorebner/caddy-gitea=.
+    
+      # - uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ github.event.repository.name }}_${{ matrix.go_os }}
+      #     path: ${{ github.event.repository.name }}_${{ matrix.go_os }}
+      # - name: Create release
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     tag: ${{ github.ref_name }}
+      #   run: |
+      #     gh release create "$tag" \
+      #         --repo="$GITHUB_REPOSITORY" \
+      #         --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
+      #         --generate-notes
+      # - uses: actions/create-release@v1
+      #   id: create_release
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
+      #   with:
+      #     tag_name: ${{ github.ref }}
+      #     release_name: Release ${{ github.ref }}
+      #     draft: false
+      #     prerelease: false
+      # - uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ${{ github.event.repository.name }}_darwin
+      #     asset_name: ${{ github.event.repository.name }}_darwin
+      #     asset_content_type: application/octet-stream
+      # - uses: softprops/action-gh-release@v2
+      #   with:
+      #     files: |
+      #       ${{ github.event.repository.name }}_darwin
+      #       ${{ github.event.repository.name }}_linux
+      #       ${{ github.event.repository.name }}_windows
