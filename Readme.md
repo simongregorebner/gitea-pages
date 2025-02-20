@@ -47,6 +47,13 @@ Afterward you can simply run:
 ./caddy run --config Caddyfile
 ```
 
+If you build/use the docker container you can run it like this:
+
+```bash
+# Create a Caddyfile (configuration file) first !
+docker run -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile -p 8080:8080 gitea-pages
+```
+
 ## Configuration
 
 These are the possible configuration options with their defaults:
@@ -60,7 +67,7 @@ gitea-pages {
 	server https://your-gitea-server
 	token gitea-access-token
     pages_branch gitea-pages
-    postfix_pages_repository gitea.io
+    postfix_pages_repository gitea-pages
     url_scheme simple
 }
 log {

@@ -77,7 +77,7 @@ func (module *GiteaPagesModule) UnmarshalCaddyfile(d *caddyfile.Dispenser) error
 			module.PagesBranch = "gitea-pages"
 		}
 		if module.PostfixPagesRepository == "" {
-			module.PostfixPagesRepository = "gitea.io"
+			module.PostfixPagesRepository = "gitea-pages"
 		}
 
 		if module.URLScheme == "" {
@@ -99,7 +99,6 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 
 	var organization, repository, path string
 	if module.URLScheme == "simple" {
-		fmt.Println("SIMPLE")
 		// "Simple" URL case - we expect the organization and repository in the URL
 		// The URL/path looks like http(s)://<giteaserver>[:<port>]/<organization>/<repository>[/<filepath>]
 
