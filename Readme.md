@@ -1,14 +1,29 @@
-__INFO: preliminary documentation ... more to come__
-
 # Overview
 
-This is an all in one pages server for [Gitea](https://gitea.com). With default settings it works and uses similar/same conventions as [Github Pages](https://pages.github.com).
+This is an all-in-one pages server for [Gitea](https://gitea.com). It works and uses similar/same conventions as [Github Pages](https://pages.github.com).
+
 
 You can operate it in 2 modes, either __simple__ (default) or __classic__ (similar to how Github Pages operates).
 
-In __simple__ mode no special DNS setup is required and the access to the hosted sides are always according to the pattern __http(s)://&lt;your-server-hostname&gt;/&lt;organization&gt;/&lt;repository&gt;__ 
+__simple:__
 
-In __classic__ mode the access to the pages goes according to these two patterns: __http(s)://&lt;organization&gt;.&lt;your-server-hostname&gt;/&lt;repository&gt;__ or __http(s)://&lt;organization&gt;.&lt;your-server-hostname&gt;__ (with default configuration this serves the content of the repo named __&lt;organization&gt;.github.io__ of the organization) This requires that you setup a wildcard CNAME in DNS for your gitea host (see below for more details). You also need a wildcard HTTPS certificate if you want to run with HTTPS.
+In __simple__ mode no special DNS setup is required and the access to the hosted sides are always according to the pattern 
+
+__http(s)://&lt;your-server-hostname&gt;/&lt;organization&gt;/&lt;repository&gt;__ 
+
+__classic:__
+
+In __classic__ mode the access to the pages goes according to these two patterns: 
+
+__http(s)://&lt;organization&gt;.&lt;your-server-hostname&gt;/&lt;repository&gt;__
+
+or
+
+__http(s)://&lt;organization&gt;.&lt;your-server-hostname&gt;__ 
+
+The latter url scheme with serves the content of the repo named __&lt;organization&gt;.gitea-pages__ of the organization (with default settings).
+
+Classic mode requires that you setup a _wildcard CNAME_ in DNS for your gitea pages host (see below for more details). You also need a _wildcard HTTPS_ certificate if you want to run with HTTPS.
 
 # Usage
 
@@ -44,16 +59,32 @@ These are the possible configuration options with their defaults:
 gitea-pages {
 	server https://your-gitea-server
 	token gitea-access-token
-        pages_branch gh-pages
-        postfix_pages_repository github.io
-        url_scheme simple
+    pages_branch gitea-pages
+    postfix_pages_repository gitea.io
+    url_scheme simple
 }
 log {
 	level debug
 }
 ```
 
-For __url_scheme__ defines the operation mode, it accepts _simple_ and _classic_.
+| Option | Description |
+|----|----|
+| server | The URL of your Gitea server.  |
+| token | Your access token for the Gitea API. This token is used to authenticate requests made to the Gitea server.|
+| pages_branch | The branch in your repository that contains the static files for your website or documentation. By default, this would be the branch "gitea-pages" |
+| postfix_pages_repository | The (domain) postfix used for the pages repository. (This could be the domain where your site will be accessible, such as "gitea.io".) |
+| url_scheme | The URL scheme to use for the pages. "simple" or "classic |
+
+
+For example, if you want to assemble the same "look and feel" then on github you could set following settings in the config:
+
+|||
+|----|----|
+| pages_branch | gh-pages |
+| postfix_pages_repository | github.io |
+| url_scheme | classic |
+
 
 # Development
 

@@ -74,10 +74,10 @@ func (module *GiteaPagesModule) UnmarshalCaddyfile(d *caddyfile.Dispenser) error
 
 		// Set defaults
 		if module.PagesBranch == "" {
-			module.PagesBranch = "gh-pages"
+			module.PagesBranch = "gitea-pages"
 		}
 		if module.PostfixPagesRepository == "" {
-			module.PostfixPagesRepository = "github.io"
+			module.PostfixPagesRepository = "gitea.io"
 		}
 
 		if module.URLScheme == "" {
