@@ -1,3 +1,9 @@
+# Gitea-Pages
+
+<img src="doc/gitea-pages.svg" alt="gitea-pages-logo" width="30%" height="auto">
+
+
+
 # Overview
 
 This is an all-in-one pages server for [Gitea](https://gitea.com). It works and uses similar/same conventions as [Github Pages](https://pages.github.com).
