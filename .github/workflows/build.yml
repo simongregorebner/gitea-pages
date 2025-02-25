@@ -15,7 +15,7 @@ jobs:
         with:
           go-version: 'stable'
       - run: go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
-      - run: xcaddy build --with github.com/simongregorebner/caddy-gitea=.
+      - run: xcaddy build --with github.com/simongregorebner/gitea-pages=.
     
       - uses: actions/upload-artifact@v4
         with:

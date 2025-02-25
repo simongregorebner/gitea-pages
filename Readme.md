@@ -119,13 +119,13 @@ To build the server binary simply run
 
 ```bash
 # Build a specific version
-xcaddy build --with github.com/simongregorebner/caddy-gitea@v0.0.1
+xcaddy build --with github.com/simongregorebner/gitea-pages@v0.0.1
 
 # Build with specific commit (that was pushed to github)
-xcaddy build --with github.com/simongregorebner/caddy-gitea@f4a6a77
+xcaddy build --with github.com/simongregorebner/gitea-pages@f4a6a77
 
 # Build locally
-xcaddy build --with github.com/simongregorebner/caddy-gitea=.
+xcaddy build --with github.com/simongregorebner/gitea-pages=.
 ```
 
 ## Docker
