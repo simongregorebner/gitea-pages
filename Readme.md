@@ -11,13 +11,13 @@ This is an all-in-one pages server for [Gitea](https://gitea.com). It works and 
 
 You can operate it in 2 modes, either __simple__ (default) or __classic__ (similar to how Github Pages operates).
 
-__simple:__
+## Simple Mode
 
 In __simple__ mode no special DNS setup is required and the access to the hosted sides are always according to the pattern 
 
 __http(s)://&lt;your-server-hostname&gt;/&lt;organization&gt;/&lt;repository&gt;__ 
 
-__classic:__
+## Classic Mode
 
 In __classic__ mode the access to the pages goes according to these two patterns: 
 
