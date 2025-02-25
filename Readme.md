@@ -58,6 +58,9 @@ If you build/use the docker container you can run it like this:
 ```bash
 # Create a Caddyfile (configuration file) first !
 docker run -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile -p 8080:8080 gitea-pages
+
+# run the image hosted with this github user
+docker run -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile -p 8080:8080  ghcr.io/simongregorebner/gitea-pages:0.0.1
 ```
 
 ## Configuration
@@ -133,6 +136,9 @@ docker build -t gitea-pages .
 
 # cross platform build
 docker build --platform=linux/amd64 -t gitea-pages .
+
+# example build image for this github user
+docker build --platform=linux/amd64 -t ghcr.io/simongregorebner/gitea-pages:0.0.1 .
 ```
 
 ## Testing
