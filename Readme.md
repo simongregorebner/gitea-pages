@@ -1,6 +1,6 @@
 # Gitea-Pages
 
-<img src="doc/gitea-pages.svg" alt="gitea-pages-logo" width="30%" height="auto">
+<img src="doc/gitea-pages.svg" alt="gitea-pages-logo" width="15%" height="auto">
 
 
 
