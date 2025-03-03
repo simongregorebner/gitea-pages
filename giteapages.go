@@ -132,7 +132,8 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 			// (Try to) Use of the pages repository in the specified organization
 
 			// We use github.com conventions: <organization>.github.io
-			repository = organization + "." + module.PostfixPagesRepository
+			// repository = organization + "." + module.PostfixPagesRepository
+			repository = module.PostfixPagesRepository
 			path = "index.html"
 
 		} else {
