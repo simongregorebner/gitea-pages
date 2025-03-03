@@ -1,6 +1,6 @@
 FROM caddy:builder-alpine AS builder
 
-RUN xcaddy build --with github.com/simongregorebner/gitea-pages@v0.0.1
+RUN xcaddy build --with github.com/simongregorebner/gitea-pages@v0.0.2
 
 
 FROM alpine
