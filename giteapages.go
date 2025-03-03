@@ -164,6 +164,7 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 	// Handle request
 	content, err := module.getFile(organization, repository, module.PagesBranch, path)
 	if err != nil {
+		module.Logger.Error("Unable to retrieve file - error: " + err.Error())
 		return caddyhttp.Error(http.StatusNotFound, err)
 	}
 
