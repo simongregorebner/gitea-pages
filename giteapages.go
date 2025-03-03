@@ -67,7 +67,7 @@ func (module *GiteaPagesModule) UnmarshalCaddyfile(d *caddyfile.Dispenser) error
 			case "pages_branch":
 				d.Args(&module.PagesBranch)
 			case "pages_repository":
-				d.Args(&module.PagesBranch)
+				d.Args(&module.PagesRepository)
 			case "postfix_pages_repository":
 				d.Args(&module.PostfixPagesRepository)
 			case "url_scheme":
