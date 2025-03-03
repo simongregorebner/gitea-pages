@@ -17,6 +17,12 @@ In __simple__ mode no special DNS setup is required and the access to the hosted
 
 __http(s)://&lt;your-server-hostname&gt;/&lt;organization&gt;/&lt;repository&gt;__ 
 
+To create a pages site, just 
+1. Create a `gitea-pages` branch in any repository of an organization
+2. Put your content in this branch. (eg index.html) and push the branch
+
+After the push the content will be available at: http(s)://&lt;your-server-hostname&gt;/&lt;organization&gt;/&lt;repository&gt;
+
 ## Classic Mode
 
 In __classic__ mode the access to the pages goes according to these two patterns: 
@@ -27,9 +33,25 @@ or
 
 __http(s)://&lt;organization&gt;.&lt;your-server-hostname&gt;__ 
 
-The latter url scheme with serves the content of the repo named __&lt;organization&gt;.gitea-pages__ of the organization (with default settings).
+The latter url scheme with serves the content of the repo named __gitea-pages__ of the organization (with default settings, however you can also set it to github like convention or  __&lt;organization&gt;.&lt;repository_suffix&gt;__ ).
+
+
+In this mode you can create pages content like this:
+
+1. Create a `gitea-pages` repo in any organization
+2. Create a `gitea-pages` branch in this `gitea-pages` repository
+3. Put your content in this branch. (eg index.html)
+
+Your content will now be available on https://&lt;organization&gt;.&lt;your-server-domain&gt;/index.html
+
+
+Beside this you can simply create a `gitea-pages` branch in any repository of the organization and push it to the gitea server. 
+These pages are then available at: https://&lt;organization&gt;.&lt;your-server-domain&gt;/
+
+
 
 Classic mode requires that you setup a _wildcard CNAME_ in DNS for your gitea pages host (see below for more details). You also need a _wildcard HTTPS_ certificate if you want to run with HTTPS.
+
 
 # Usage
 
