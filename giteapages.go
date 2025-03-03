@@ -34,6 +34,7 @@ type GiteaPagesModule struct {
 	Server                 string        `json:"server,omitempty"`
 	Token                  string        `json:"token,omitempty"`
 	PagesBranch            string        `json:"pages_branch,omitempty"`
+	PagesRepository        string        `json:"pages_repository,omitempty"`
 	PostfixPagesRepository string        `json:"postfix_pages_repository,omitempty"`
 	URLScheme              string        `json:"url_scheme,omitempty"`
 }
@@ -65,6 +66,8 @@ func (module *GiteaPagesModule) UnmarshalCaddyfile(d *caddyfile.Dispenser) error
 				d.Args(&module.Token)
 			case "pages_branch":
 				d.Args(&module.PagesBranch)
+			case "pages_repository":
+				d.Args(&module.PagesBranch)
 			case "postfix_pages_repository":
 				d.Args(&module.PostfixPagesRepository)
 			case "url_scheme":
@@ -76,8 +79,10 @@ func (module *GiteaPagesModule) UnmarshalCaddyfile(d *caddyfile.Dispenser) error
 		if module.PagesBranch == "" {
 			module.PagesBranch = "gitea-pages"
 		}
-		if module.PostfixPagesRepository == "" {
-			module.PostfixPagesRepository = "gitea-pages"
+		if module.PagesRepository == "" {
+			if module.PostfixPagesRepository == "" {
+				module.PostfixPagesRepository = "gitea-pages"
+			}
 		}
 
 		if module.URLScheme == "" {
@@ -131,9 +136,13 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 			// Case http(s)://<organization>.<giteaserver>[:<port>]
 			// (Try to) Use of the pages repository in the specified organization
 
-			// We use github.com conventions: <organization>.github.io
-			// repository = organization + "." + module.PostfixPagesRepository
-			repository = module.PostfixPagesRepository
+			// Determine name of the default repository for organization based on settings
+			if module.PagesRepository != "" {
+				repository = module.PagesRepository
+			} else {
+				// We use github.com conventions: <organization>.github.io
+				repository = organization + "." + module.PostfixPagesRepository
+			}
 			path = "index.html"
 
 		} else {
@@ -153,9 +162,13 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 				}
 			} else {
 				// (Try to) Use of the pages repository in the specified organization
-				// We use github.com conventions: <organization>.github.io
-				// repository = organization + "." + module.PostfixPagesRepository
-				repository = module.PostfixPagesRepository
+				// Determine name of the default repository for organization based on settings
+				if module.PagesRepository != "" {
+					repository = module.PagesRepository
+				} else {
+					// We use github.com conventions: <organization>.github.io
+					repository = organization + "." + module.PostfixPagesRepository
+				}
 				path = strings.Join(parts[0:], "/")
 			}
 		}
