@@ -122,7 +122,7 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 		// The URL/path looks like http(s)://<organization>.<giteaserver>[:<port>]/<repository>/[/<filepath>]
 
 		// extract the organization from the hostname
-		organization = strings.TrimRight(request.Host, ".")
+		organization = strings.Split(request.Host, ".")[0]
 
 		// Remove a potential "/" prefix and trailing "/" -  then split up the path
 		path = strings.TrimSuffix(strings.TrimPrefix(request.URL.Path, "/"), "/")
