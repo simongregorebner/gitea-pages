@@ -6,6 +6,7 @@ import (
 	"io/fs"
 	"mime"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"code.gitea.io/sdk/gitea"
@@ -103,12 +104,18 @@ func (module *GiteaPagesModule) UnmarshalCaddyfile(d *caddyfile.Dispenser) error
 func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *http.Request, _ caddyhttp.Handler) error {
 
 	var organization, repository, path string
+
+	// the path might  have url query parameters e.g. "?h=vpn" - this need to be stripped of
+	parsedUrl, _ := url.Parse(request.URL.Path)
+	parsedUrl.RawQuery = "" // Clear the query parameters
+	path = parsedUrl.String()
+
 	if module.URLScheme == "simple" {
 		// "Simple" URL case - we expect the organization and repository in the URL
 		// The URL/path looks like http(s)://<giteaserver>[:<port>]/<organization>/<repository>[/<filepath>]
 
 		// Remove a potential "/" prefix and trailing "/" -  then split up the path
-		parts := strings.Split(strings.TrimSuffix(strings.TrimPrefix(request.URL.Path, "/"), "/"), "/")
+		parts := strings.Split(strings.TrimSuffix(strings.TrimPrefix(path, "/"), "/"), "/")
 
 		length := len(parts)
 		if length <= 1 {
@@ -130,7 +137,7 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 		organization = strings.Split(request.Host, ".")[0]
 
 		// Remove a potential "/" prefix and trailing "/" -  then split up the path
-		path = strings.TrimSuffix(strings.TrimPrefix(request.URL.Path, "/"), "/")
+		path = strings.TrimSuffix(strings.TrimPrefix(path, "/"), "/")
 
 		if path == "" {
 			// Case http(s)://<organization>.<giteaserver>[:<port>]
@@ -177,12 +184,20 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 	// Handle request
 	content, err := module.getFile(organization, repository, module.PagesBranch, path)
 	if err != nil {
-		module.Logger.Error("Unable to retrieve file - error: " + err.Error())
-		return caddyhttp.Error(http.StatusNotFound, err)
+		module.Logger.Error("Unable to retrieve file: " + path + " - error: " + err.Error())
+
+		// append an index.html and retry
+		path = path + "/index.html"
+		content, err = module.getFile(organization, repository, module.PagesBranch, path)
+		if err != nil {
+			module.Logger.Error("Unable to retrieve file: " + path + " - error: " + err.Error())
+			return caddyhttp.Error(http.StatusNotFound, err)
+		}
+		// return caddyhttp.Error(http.StatusNotFound, err)
 	}
 
 	// Try to determine mime type based on extenstion of file
-	parts := strings.Split(request.URL.Path, ".")
+	parts := strings.Split(path, ".")
 	if len(parts) > 1 {
 		extension := parts[len(parts)-1] // get file extension
 		writer.Header().Add("Content-Type", mime.TypeByExtension("."+extension))
@@ -208,21 +223,6 @@ func (module GiteaPagesModule) repoBranchExists(organization, repository, branch
 		return false
 	}
 	return branchInfo.Name == branch
-}
-
-// Check if a repo has a specific topic assigned
-func (module GiteaPagesModule) topicExists(organization, repository, topic string) bool {
-	topics, _, err := module.GiteaClient.ListRepoTopics(organization, repository, gitea.ListRepoTopicsOptions{})
-	if err != nil {
-		return false
-	}
-
-	for _, topicName := range topics {
-		if topicName == topic {
-			return true
-		}
-	}
-	return false
 }
 
 // Interface guards
