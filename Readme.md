@@ -162,6 +162,7 @@ docker build --platform=linux/amd64 -t gitea-pages .
 
 # example build image for this github user
 docker build --platform=linux/amd64 -t ghcr.io/simongregorebner/gitea-pages:0.0.1 .
+docker push ghcr.io/simongregorebner/gitea-pages:0.0.1
 ```
 
 ## Testing
