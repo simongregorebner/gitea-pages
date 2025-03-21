@@ -1,0 +1,12 @@
+services:
+  server:
+    image: ghcr.io/simongregorebner/gitea-pages:0.0.8
+    container_name: gitea-pages
+    restart: always
+    volumes:
+      - ./Caddyfile::/etc/caddy/Caddyfile:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+    ports:
+      - "8080:8080/tcp"
