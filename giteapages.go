@@ -121,6 +121,13 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 		if length <= 1 {
 			return caddyhttp.Error(http.StatusNotFound, fs.ErrNotExist)
 		} else if length == 2 {
+			// If the path does not end with an "/" we send an redirect and append an "/" to the requested URL
+			if !strings.HasSuffix(parsedUrl.String(), "/") {
+				module.Logger.Error("Redirect to: " + parsedUrl.String() + "/")
+				http.Redirect(writer, request, parsedUrl.String()+"/", http.StatusMovedPermanently)
+				return nil
+			}
+
 			organization = parts[0]
 			repository = parts[1]
 			path = "index.html" // there is no file/path specified
