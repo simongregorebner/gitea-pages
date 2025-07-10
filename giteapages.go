@@ -212,7 +212,7 @@ func (module GiteaPagesModule) getFile(organization, repository, branch, path st
 
 	module.Logger.Info(fmt.Sprintf("Retrieve file - owner: %s repo: %s filepath: %s branch: %s", organization, repository, path, branch))
 
-	content, _, err := module.GiteaClient.GetFile(organization, repository, branch, path)
+	content, _, err := module.GiteaClient.GetFile(organization, repository, branch, path, true)
 	return content, err
 }
 
