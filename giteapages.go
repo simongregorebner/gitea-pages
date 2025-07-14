@@ -193,6 +193,13 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 	if err != nil {
 		module.Logger.Error("Unable to retrieve file: " + path + " - error: " + err.Error())
 
+		// If the path does not end with an "/" we send an redirect and append an "/" to the requested URL
+		if !strings.HasSuffix(parsedUrl.String(), "/") {
+			module.Logger.Error("Redirect to: " + parsedUrl.String() + "/")
+			http.Redirect(writer, request, parsedUrl.String()+"/", http.StatusMovedPermanently)
+			return nil
+		}
+
 		// append an index.html and retry
 		path = path + "/index.html"
 		content, err = module.getFile(organization, repository, module.PagesBranch, path)
