@@ -5,6 +5,8 @@ RUN xcaddy build --with github.com/simongregorebner/gitea-pages@v0.0.11
 
 FROM alpine
 
+COPY ./Caddyfile /etc/caddy/Caddyfile
+
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
 CMD ["/usr/bin/caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]

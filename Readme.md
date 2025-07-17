@@ -85,6 +85,22 @@ docker run -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile -p 8080:8080 gitea-pages
 docker run -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile -p 8080:8080  ghcr.io/simongregorebner/gitea-pages:0.0.1
 ```
 
+Or docker compose without Caddyfile
+
+```yml
+version: "3.8"
+services:
+  gitea-pages:
+    image: ghcr.io/simongregorebner/gitea-pages:0.0.8
+    environment:
+      GITEA_SERVER: https://git.example.com/
+      GITEA_TOKEN: 91071xxxxxxxxxxxxxxxxxx97a
+      # GITEA_PAGES_BRANSH: gitea-pages
+      # GITEA_URL_SCHEME: simple
+      # GITEA_PAGES_REPOSITORY: 
+      # GITEA_POSTFIX_PAGES_REPOSITORY: 
+```
+
 ## Configuration
 
 These are the possible configuration options with their defaults:
