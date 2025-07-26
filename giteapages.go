@@ -121,6 +121,13 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 		if length <= 1 {
 			return caddyhttp.Error(http.StatusNotFound, fs.ErrNotExist)
 		} else if length == 2 {
+			// If the path does not end with an "/" we send an redirect and append an "/" to the requested URL
+			if !strings.HasSuffix(parsedUrl.String(), "/") {
+				module.Logger.Error("Redirect to: " + parsedUrl.String() + "/")
+				http.Redirect(writer, request, parsedUrl.String()+"/", http.StatusMovedPermanently)
+				return nil
+			}
+
 			organization = parts[0]
 			repository = parts[1]
 			path = "index.html" // there is no file/path specified
@@ -163,6 +170,12 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 				// Its a specifig repo inside the organization
 				repository = parts[0]
 				if len(parts) == 1 {
+					// If the path does not end with an "/" we send an redirect and append an "/" to the requested URL
+					if !strings.HasSuffix(parsedUrl.String(), "/") {
+						module.Logger.Error("Redirect to: " + parsedUrl.String() + "/")
+						http.Redirect(writer, request, parsedUrl.String()+"/", http.StatusMovedPermanently)
+						return nil
+					}
 					path = "index.html"
 				} else {
 					path = strings.Join(parts[1:], "/")
@@ -185,6 +198,15 @@ func (module GiteaPagesModule) ServeHTTP(writer http.ResponseWriter, request *ht
 	content, err := module.getFile(organization, repository, module.PagesBranch, path)
 	if err != nil {
 		module.Logger.Error("Unable to retrieve file: " + path + " - error: " + err.Error())
+
+		// If the path does not end with an "/" we send an redirect and append an "/" to the requested URL
+		// ideally one would check if the requested path is a directory on the git server and if not terminate early,
+		// but there is no way to check that
+		if !strings.HasSuffix(parsedUrl.String(), "/") {
+			module.Logger.Error("Redirect to: " + parsedUrl.String() + "/")
+			http.Redirect(writer, request, parsedUrl.String()+"/", http.StatusMovedPermanently)
+			return nil
+		}
 
 		// append an index.html and retry
 		path = path + "/index.html"

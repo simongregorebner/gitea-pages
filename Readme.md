@@ -111,7 +111,7 @@ log {
 | server | The URL of your Gitea server.  |
 | token | Your access token for the Gitea API. This token is used to authenticate requests made to the Gitea server.|
 | pages_branch | The branch in your repository that contains the static files for your website or documentation. By default, this would be the branch "gitea-pages" |
-| pages_repository | The default repository of an organization |
+| pages_repository | The default repository of an organization. The default is "gitea-pages". This setting only has an effect if the server is used in `url_scheme classic`|
 | postfix_pages_repository | The (domain) postfix used for the pages repository. __This setting is only used if pages_repository is not set!__ (This could be the domain where your site will be accessible, such as "gitea.io".) |
 | url_scheme | The URL scheme to use for the pages. "simple" or "classic |
 
