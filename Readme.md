@@ -82,7 +82,24 @@ If you build/use the docker container you can run it like this:
 docker run -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile -p 8080:8080 gitea-pages
 
 # run the image hosted with this github user
-docker run -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile -p 8080:8080  ghcr.io/simongregorebner/gitea-pages:0.0.1
+docker run -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile -p 8080:8080 ghcr.io/simongregorebner/gitea-pages:latest
+```
+
+Or docker compose without Caddyfile
+
+```yml
+version: "3.8"
+services:
+  gitea-pages:
+    image: ghcr.io/simongregorebner/gitea-pages:latest
+    environment:
+      GITEA_SERVER: https://git.example.com/
+      GITEA_TOKEN: 91071xxxxxxxxxxxxxxxxxx97a
+      # GITEA_PAGES_BRANCH: gitea-pages
+      # GITEA_URL_SCHEME: simple
+      # GITEA_PAGES_REPOSITORY: 
+      # GITEA_POSTFIX_PAGES_REPOSITORY: 
+      # LOG_LEVEL: INFO
 ```
 
 ## Configuration
