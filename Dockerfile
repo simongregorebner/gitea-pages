@@ -1,9 +1,13 @@
 FROM caddy:builder-alpine AS builder
 
-RUN xcaddy build --with github.com/simongregorebner/gitea-pages@v0.0.11
+COPY . .
+
+RUN xcaddy build --with github.com/simongregorebner/gitea-pages=.
 
 
 FROM alpine
+
+COPY ./Caddyfile /etc/caddy/Caddyfile
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 

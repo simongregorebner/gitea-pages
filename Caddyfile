@@ -1,0 +1,16 @@
+{
+  order gitea-pages before file_server
+  log {
+    level {$LOG_LEVEL:INFO}
+  }
+}
+
+:8080
+gitea-pages {
+  server {$GITEA_SERVER}
+  token {$GITEA_TOKEN}
+  pages_branch {$GITEA_PAGES_BRANCH:gitea-pages}
+  pages_repository {$GITEA_PAGES_REPOSITORY:}
+  postfix_pages_repository {$GITEA_POSTFIX_PAGES_REPOSITORY:}
+  url_scheme {$GITEA_URL_SCHEME:simple}
+}
