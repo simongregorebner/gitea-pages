@@ -3,7 +3,7 @@ module github.com/simongregorebner/gitea-pages
 go 1.25
 
 require (
-	code.gitea.io/sdk/gitea v0.22.0
+	code.gitea.io/sdk/gitea v0.22.1
 	github.com/caddyserver/caddy/v2 v2.10.2
 	go.uber.org/zap v1.27.0
 )
