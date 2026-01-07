@@ -6,6 +6,10 @@ on:
     tags:
       - v*.*.*
 
+permissions:
+  packages: write
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,15 +17,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Docker
-        uses: docker/action-setup-docker@v4
-        id: meta
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Docker build push
+      - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           file: ./Dockerfile
@@ -29,5 +38,5 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.actor }}/gitea-pages:${{ steps.meta.outputs.version }}
-            ghcr.io/${{ github.actor }}/gitea-pages:latest
+            ghcr.io/${{ github.repository_owner }}/gitea-pages:${{ github.ref_name }}
+            ghcr.io/${{ github.repository_owner }}/gitea-pages:latest
