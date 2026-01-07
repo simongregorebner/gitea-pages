@@ -1,0 +1,33 @@
+name: Build Container Image
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Docker
+        uses: docker/action-setup-docker@v4
+        id: meta
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker build push
+        uses: docker/build-push-action@v6
+        with:
+          file: ./Dockerfile
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ghcr.io/${{ github.actor }}/gitea-pages:${{ steps.meta.outputs.version }}
+            ghcr.io/${{ github.actor }}/gitea-pages:latest
