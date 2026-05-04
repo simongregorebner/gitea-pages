@@ -5,7 +5,7 @@ go 1.26
 require (
 	code.gitea.io/sdk/gitea v0.24.1
 	github.com/caddyserver/caddy/v2 v2.11.2
-	go.uber.org/zap v1.27.1
+	go.uber.org/zap v1.28.0
 )
 
 require (
